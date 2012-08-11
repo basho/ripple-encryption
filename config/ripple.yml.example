@@ -1,0 +1,9 @@
+development:
+  host: 127.0.0.1
+  http_port: 8098
+  namespace: local_ns~
+
+test:
+  host: 127.0.0.1
+  http_port: 9000
+  namespace: test_ns~

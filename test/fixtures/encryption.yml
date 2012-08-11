@@ -1,0 +1,5 @@
+test:
+  cipher: AES-256-CBC
+  key: fantasticobscurekeygoesherenowty
+  iv: !binary |
+    ABYLnUHWE/fIwE2gKYC6hg==

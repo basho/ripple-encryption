@@ -1,0 +1,20 @@
+# AES-256-CBC requires a 32-byte key and 16 byte iv
+
+# remove iv if a random generated iv is desired
+
+development:
+  cipher: AES-256-CBC
+  key: fantasticobscurekeygoesherenowty
+  iv: !binary |
+    ABYLnUHWE/fIwE2gKYC6hg==
+
+test:
+  cipher: AES-256-CBC
+  key: fantasticobscurekeygoesherenowty
+  iv: !binary |
+    ABYLnUHWE/fIwE2gKYC6hg==
+
+prod:
+  cipher: AES-256-CBC
+  key: fantasticobscurekeygoesherenowty
+  base64: true
