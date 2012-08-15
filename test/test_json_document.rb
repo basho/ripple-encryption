@@ -1,6 +1,6 @@
 require 'helper'
 
-class TestJsonDocument < Test::Unit::TestCase
+class TestJsonDocument < MiniTest::Spec
   context "Ripple::Encryption::JsonDocument" do
     setup do
       # get some encryption going

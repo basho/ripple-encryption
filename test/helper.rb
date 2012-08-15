@@ -1,8 +1,8 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
-require 'test/unit'
-require 'contest'
+require 'minitest/autorun'
+require 'mini_shoulda'
 
 require 'ripple-encryption'
 

@@ -20,5 +20,5 @@ Gem::Specification.new do |gem|
 
   # Test Dependencies
   gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'contest'
+  gem.add_development_dependency 'mini_shoulda'
 end
