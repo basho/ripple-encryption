@@ -1,6 +1,6 @@
 require 'helper'
 
-class TestRipple < Test::Unit::TestCase
+class TestRipple < MiniTest::Spec
   context "TestDocument" do
     should "read the ripple document" do
       assert doc = TestDocument.find('some_other_data')

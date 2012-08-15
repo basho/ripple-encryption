@@ -1,6 +1,6 @@
 require 'helper'
 
-class TestUnencryptedDocument < Test::Unit::TestCase
+class TestUnencryptedDocument < MiniTest::Spec
   context "unencrypted GenericModel" do
     should "read unencrypted document type" do
       assert (doc = TestDocument.find('some_data')), "Could not find fixture."
