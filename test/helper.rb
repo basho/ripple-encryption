@@ -17,8 +17,8 @@ begin
   client = Riak::Client.new(:nodes => [riak_config])
   bucket = client.bucket("#{riak_config[:namespace].to_s}test") 
   object = bucket.get_or_new("test") 
-rescue RuntimeError
-  raise RuntimeError, "Could not connect to the Riak test node."
+rescue RuntimeError => e
+  raise e
 end
 
 # activate the library
