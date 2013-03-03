@@ -22,19 +22,19 @@ class TestEncryptor < MiniTest::Spec
 
   context "Ripple::Encryption::Encryptor with missing parameter" do
     should "raise an error if key is missing" do
-      assert_raises Ripple::Encryption::EncryptorError do
+      assert_raises Ripple::Encryption::EncryptorConfigError do
         Ripple::Encryption::Encryptor.new(:iv => 'iv', :cipher => 'AES-256-CBC')
       end
     end
 
     should "raise an error if iv is missing" do
-      assert_raises Ripple::Encryption::EncryptorError do
+      assert_raises Ripple::Encryption::EncryptorConfigError do
         Ripple::Encryption::Encryptor.new(:key => 'key', :cipher => 'AES-256-CBC')
       end
     end
 
     should "raise an error if cipher is missing" do
-      assert_raises Ripple::Encryption::EncryptorError do
+      assert_raises Ripple::Encryption::EncryptorConfigError do
         Ripple::Encryption::Encryptor.new(:key => 'key', :iv => 'iv')
       end
     end

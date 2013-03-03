@@ -17,16 +17,14 @@ begin
   client = Riak::Client.new(:nodes => [riak_config])
   bucket = client.bucket("#{riak_config[:namespace].to_s}test") 
   object = bucket.get_or_new("test") 
-rescue RuntimeError => e
-  raise e
+rescue RuntimeError
+  raise RuntimeError, "Could not connect to the Riak test node."
 end
-
-# activate the library
-Ripple::Encryption::Activation.new ENV['ENCRYPTION']
-
+# define test Ripple Documents
+Ripple::Encryption::Encryption.activate ENV['ENCRYPTION']
 class TestDocument
   include Ripple::Document
-  include Ripple::Encryption
+  include Ripple::Encryption::Encryption
   property :message, String
 
   def self.bucket_name
@@ -34,7 +32,9 @@ class TestDocument
   end
 end
 
-# load Riak fixtures the raw way
+TestDocument.bucket.get_index('$bucket', '_').each {|k| TestDocument.bucket.delete(k)}
+
+# load Riak fixtures
 FileList[File.expand_path(File.join('..','fixtures','*'),__FILE__)].each do |f|
   if Dir.exists? f
     fixture_type = File.basename(f)
@@ -43,15 +43,11 @@ FileList[File.expand_path(File.join('..','fixtures','*'),__FILE__)].each do |f|
     rescue NameError
       raise NameError, "Is a Ripple Document of type '#{fixture_type.classify}' defined for that fixture file?"
     end
-    # unencrypted jsons
-    FileList[File.join(f,'*.unencrypted.riak')].each do |r|
-      key = File.basename(r,'.unencrypted.riak')
-      `curl -s -H 'content-type: application/json' -XPUT http://#{Ripple.config[:host]}:#{Ripple.config[:http_port]}/buckets/#{Ripple.config[:namespace]}#{fixture_type.pluralize}/keys/#{key} --data-binary @#{r}`
-    end
-    # encrypted jsons
-    FileList[File.join(f,'*.encrypted.riak')].each do |r|
-      key = File.basename(r,'.encrypted.riak')
-      `curl -s -H 'content-type: application/x-json-encrypted' -XPUT http://#{Ripple.config[:host]}:#{Ripple.config[:http_port]}/buckets/#{Ripple.config[:namespace]}#{fixture_type.pluralize}/keys/#{key} --data-binary @#{r}`
+    FileList[File.join(f,'*.riak')].each do |r|
+      key = File.basename(r,'.riak')
+      content_type = (key == 'v0_doc' ? 'application/json' : 'application/x-json-encrypted')
+      `curl -s -H 'content-type: #{content_type}' -XPUT http://#{Ripple.config[:host]}:#{Ripple.config[:http_port]}/buckets/#{Ripple.config[:namespace]}#{fixture_type.pluralize}/keys/#{key} --data-binary @#{r}`
     end
   end
 end
+

@@ -1,7 +1,7 @@
 module Ripple
   module Encryption
     # Generic error class for Encryptor
-    class EncryptorError < StandardError; end
+    class EncryptorConfigError < StandardError; end
 
     # Implements a simple object that can either encrypt or decrypt arbitrary data.
     #
@@ -13,7 +13,10 @@ module Ripple
       # Creates an Encryptor that is prepared to encrypt/decrypt a blob.
       # @param [Hash] config the key/cipher/iv needed to initialize OpenSSL
       def initialize(config)
-        validate(config)
+        # ensure that we have the required configuration keys
+        %w(cipher key iv).each do |option|
+          raise(Ripple::Encryption::EncryptorConfigError, "Missing configuration option '#{option}'.") if config[option].nil?
+        end
         @config = config
         @cipher = OpenSSL::Cipher.new(@config['cipher'])
       end
@@ -39,15 +42,6 @@ module Ripple
         @cipher.send mode
         @cipher.key = @config['key']
         @cipher.iv  = @config['iv']
-      end
-
-      # Creates an Encryptor that is prepared to encrypt/decrypt a blob.
-      # @param [Hash] config the key/cipher/iv needed to initialize OpenSSL
-      def validate(config)
-        # ensure that we have the required configuration keys
-        %w(cipher key iv).each do |option|
-          raise(Ripple::Encryption::EncryptorError, "Missing configuration option '#{option}'.") if config[option].nil?
-        end
       end
     end
   end
