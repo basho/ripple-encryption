@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["rsecrist@basho.com", "casey@basho.com"]
   gem.description   = %q{Easily encrypt data at rest with minimal changes to existing ripple models.}
   gem.summary       = %q{A simple encryption library for objects stored in riak.}
-  gem.homepage      = ""
+  gem.homepage      = "http://github.com/basho/ripple-encryption"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
