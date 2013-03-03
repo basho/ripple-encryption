@@ -21,10 +21,10 @@ rescue RuntimeError
   raise RuntimeError, "Could not connect to the Riak test node."
 end
 # define test Ripple Documents
-Ripple::Encryption::Encryption.activate ENV['ENCRYPTION']
+Ripple::Encryption.activate ENV['ENCRYPTION']
 class TestDocument
   include Ripple::Document
-  include Ripple::Encryption::Encryption
+  include Ripple::Encryption
   property :message, String
 
   def self.bucket_name

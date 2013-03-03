@@ -13,7 +13,7 @@ class TestMigrationV1ToV2 < MiniTest::Spec
     should "write unencrypted document type when content-type is plain" do
       document = TestDocument.new
       document.message = 'here is some new data'
-      Ripple::Encryption::Encryption.class_variable_set(:@@is_activated, false)
+      Ripple::Encryption.class_variable_set(:@@is_activated, false)
       document.robject.content_type = 'application/json'
       document.save
       expected_v2_data = '{"message":"here is some new data","_type":"TestDocument"}'
