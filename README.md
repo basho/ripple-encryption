@@ -1,7 +1,7 @@
 # Ripple::Encryption
 
 The ripple-encryption gem provides encryption and decryption for Ripple documents.
-[riak-ruby](https://github.com/basho/riak-ruby-client) [ripple](https://github.com/seancribbs/ripple)
+[riak-ruby](https://github.com/basho/riak-ruby-client) [ripple](https://github.com/basho/ripple)
 
 
 ## Installation
@@ -40,7 +40,7 @@ Include the gem in your Gemfile.  Activate it somewhere in your
 application initialization by pointing it to your encryption config file
 like so:
 
-    Ripple::Encryption::Activation.new PATH_TO_CONFIG_FILE
+    Ripple::Encryption.activate PATH_TO_CONFIG_FILE
 
 Then include the Ripple::Encryption module in your document class:
 
