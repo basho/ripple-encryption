@@ -2,14 +2,12 @@ require 'openssl'
 require 'ripple'
 
 module Ripple
-
   module Encryption
 
     # When mixed into a Ripple::Document class, this will encrypt the
     # serialized form before it is stored in Riak.  You must register
     # a serializer that will perform the encryption.
     # @see EncryptedSerializer
-    module Encryption
       extend ActiveSupport::Concern
 
       @@is_activated = false
@@ -54,7 +52,6 @@ module Ripple
         @@is_activated
       end
 
-    end
   end
 end
 
