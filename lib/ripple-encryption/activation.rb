@@ -7,7 +7,7 @@ module Ripple
     # When mixed into a Ripple::Document class, this will encrypt the
     # serialized form before it is stored in Riak.  You must register
     # a serializer that will perform the encryption.
-    # @see EncryptedSerializer
+    # @see Serializer
       extend ActiveSupport::Concern
 
       @@is_activated = false
@@ -36,7 +36,7 @@ module Ripple
         unless Riak::Serializers['application/x-json-encrypted']
           begin
             config = YAML.load_file(path)[ENV['RACK_ENV']]
-            encryptor = Ripple::Encryption::EncryptedSerializer.new(OpenSSL::Cipher.new(config['cipher']), 'application/x-json-encrypted', path)
+            encryptor = Ripple::Encryption::Serializer.new(OpenSSL::Cipher.new(config['cipher']), 'application/x-json-encrypted', path)
           rescue Exception => e
             handle_invalid_encryption_config(e.message, e.backtrace)
           end
