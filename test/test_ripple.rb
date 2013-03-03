@@ -2,17 +2,16 @@ require 'helper'
 
 class TestRipple < MiniTest::Spec
   context "TestDocument" do
-    should "read the ripple document" do
-      assert doc = TestDocument.find('some_other_data')
-      assert_equal 'this is secret data', doc.message
-    end
-
     should "write the ripple document" do
       document = TestDocument.new
       document.message = 'here is some new data'
       document.save
       same_document = TestDocument.find(document.key)
       assert_equal document.message, same_document.message
+
+      # read the document back out
+      read_doc = TestDocument.find(document.key)
+      assert_equal 'here is some new data', read_doc.message
     end
 
     should "write the ripple document raw confirmation" do

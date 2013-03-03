@@ -30,8 +30,8 @@ module Ripple
 
       def validate_path(path)
         if !File.exists? path
-          raise ConfigError, <<MISSINGFILE
-The config file [usually "config/encryption.yml"] is missing or incorrect. You will
+          raise Ripple::Encryption::ConfigError, <<MISSINGFILE
+The file "config/encryption.yml" is missing or incorrect. You will
 need to create this file and populate it with a valid cipher,
 initialization vector and secret key.  An example is provided in 
 "config/encryption.yml.example".

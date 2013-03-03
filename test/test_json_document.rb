@@ -4,7 +4,7 @@ class TestJsonDocument < MiniTest::Spec
   context "Ripple::Encryption::JsonDocument" do
     setup do
       # get some encryption going
-      @config   = Ripple::Encryption::Config.new ENV['ENCRYPTION']
+      @config    = Ripple::Encryption::Config.new ENV['ENCRYPTION']
       encryptor = Ripple::Encryption::Encryptor.new @config.to_h
 
       # this is the data package that we want
