@@ -29,18 +29,14 @@ module Ripple
       # @see OpenSSL::Cipher
       attr_accessor :key, :iv, :key_length, :padding
 
-      # Serialization Options
-      # @return [true, false] Is the encrypted text also base64 encoded?
-      attr_accessor :base64
-
       # Creates a serializer using the provided cipher and internal
       # content type. Be sure to set the {#key}, {#iv}, {#key_length},
       # {#padding} as appropriate for the cipher before attempting
       # (de-)serialization.
       # @param [OpenSSL::Cipher] cipher the desired
       #     encryption/decryption algorithm
-      # @param [String] content_type the Content-Type of the
-      #     unencrypted contents
+      # @param [String] path the File location of 'encryption.yml'
+      #     private key file
       def initialize(cipher, path)
         @cipher, @content_type = cipher, 'application/x-json-encrypted'
         @config = Ripple::Encryption::Config.new(path)
@@ -59,13 +55,13 @@ module Ripple
       # @param [String] blob the original content from Riak
       # @return [Object] the decrypted and deserialized object
       def load(object)
-        # try the v1 way first
+        # try the v2 (0.0.2) compatible way of deserialize first
         begin
+          return EncryptedJsonDocument.new(@config, object).decrypt
+        # if that doesn't work, try the v1 (0.0.1) way
+        rescue OpenSSL::Cipher::CipherError, MultiJson::DecodeError
           internal = decrypt(object)
           return ::Riak::Serializers.deserialize('application/json', internal)
-        # if that doesn't work, try the v2 way
-        rescue OpenSSL::Cipher::CipherError, MultiJson::DecodeError
-          return EncryptedJsonDocument.new(@config, object).decrypt
         end
       end
 
