@@ -21,8 +21,8 @@ module Ripple
       end
 
       # Return either the default initialization vector, or create a new one.
-      def activate
-        @config['iv'] ||= OpenSSL::Random.random_bytes(16)
+      def generate_new_iv
+        @config['iv'] = OpenSSL::Random.random_bytes(16)
       end
 
       def validate_path(path)
