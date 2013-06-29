@@ -1,12 +1,12 @@
 module Ripple
   module Encryption
     # Implements the {Riak::Serializer} API for the purpose of
-    # encrypting/decrypting Ripple documents as JSON.
+    # encrypting/decrypting Ripple documents as raw binary.
     #
     # Example usage:
     #     path = File.join(ROOT_DIR,'config','encryption.yml')
     #     
-    #     ::Riak::Serializers['application/x-json-encrypted'] = Ripple::Encryption::JsonSerializer.new
+    #     ::Riak::Serializers['application/x-binary-encrypted'] = Ripple::Encryption::BinarySerializer.new
     #     (
     #       OpenSSL::Cipher.new(config['cipher']), path
     #     )
@@ -17,12 +17,8 @@ module Ripple
     #     end
     #
     # @see Encryption
-    class JsonSerializer
-      REGISTER_KEY = 'application/x-json-encrypted'
-
-      # @return [String] The Content-Type of the internal format,
-      #      generally "application/json"
-      attr_accessor :content_type
+    class BinarySerializer
+      REGISTER_KEY = 'application/x-binary-encrypted'
 
       # @return [OpenSSL::Cipher, OpenSSL::PKey::*] the cipher used to encrypt the object
       attr_accessor :cipher
@@ -49,7 +45,7 @@ module Ripple
       # @param [Object] object the Ruby object to serialize/encrypt
       # @return [String] the serialized, encrypted form of the object
       def dump(object)
-        JsonDocument.new(@config, object).encrypt
+        BinaryDocument.new(@config, object).encrypt
       end
 
       # Decrypts and deserializes the blob using the assigned cipher
@@ -58,7 +54,7 @@ module Ripple
       # @return [Object] the decrypted and deserialized object
       def load(object)
         # this serializer now only supports the v2 (0.0.2 - 0.0.4) format
-        return EncryptedJsonDocument.new(@config, object).decrypt
+        return EncryptedBinaryDocument.new(@config, object).decrypt
       end
     end
   end

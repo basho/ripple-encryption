@@ -13,7 +13,7 @@ module Ripple
       @@is_activated = false
 
       included do
-        @@encrypted_content_type = self.encrypted_content_type = 'application/x-json-encrypted'
+        @@encrypted_content_type = self.encrypted_content_type = Ripple::Encryption::JsonSerializer::REGISTER_KEY
       end
 
       module ClassMethods
@@ -30,26 +30,34 @@ module Ripple
       end
 
       def self.activate(path)
-        encryptor = nil
-        unless Riak::Serializers['application/x-json-encrypted']
-          begin
-            config = YAML.load_file(path)[ENV['RACK_ENV']]
-            encryptor = Ripple::Encryption::JsonSerializer.new(OpenSSL::Cipher.new(config['cipher']), path)
-          rescue Exception => e
-            handle_invalid_encryption_config(e)
-          ensure
-            @@is_activated = false
-          end
-          encryptor.key = config['key'] if config['key']
-          encryptor.iv = config['iv'] if config['iv']
-          Riak::Serializers['application/x-json-encrypted'] = encryptor
-          @@is_activated = true
+        primary_encryptor = nil
+        [Ripple::Encryption::JsonSerializer, Ripple::Encryption::BinarySerializer].each do |serializer|
+          encryptor = self.load_serializer(serializer, path)
+          primary_encryptor if serializer == Ripple::Encryption::JsonSerializer
         end
-        encryptor
+        primary_encryptor
       end
 
       def self.activated?
         @@is_activated
+      end
+
+      private
+
+      def self.load_serializer(serializer_class, path)
+        begin
+          config = YAML.load_file(path)[ENV['RACK_ENV']]
+          encryptor = serializer_class.new(OpenSSL::Cipher.new(config['cipher']), path)
+        rescue Exception => e
+          handle_invalid_encryption_config(e)
+        ensure
+          @@is_activated = false
+        end
+        encryptor.key = config['key'] if config['key']
+        encryptor.iv = config['iv'] if config['iv']
+        Riak::Serializers[serializer_class::REGISTER_KEY] = encryptor
+        @@is_activated = true
+        encryptor
       end
 
   end

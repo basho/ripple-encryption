@@ -59,6 +59,21 @@ Adjust the 'test/fixtures/ripple.yml' to point to a test riak database.
 
     bundle exec rake
 
+## Compatibility Matrix
+
+This gem stores serialized encryption objects into Riak.  The serialization
+format is versioned; and where possible incrementally transitioned from one
+version to another.  Currently; only the ```JsonSerializer``` supports this
+type of incremental transition with the support matrix below.
+
+| version  | First | Last    |
+|----------+-------+---------|
+| v1       | 0.0.1 | 0.0.3   |
+| v2       | 0.0.2 | current |
+
+The ```BinarySerializer``` does not support incremental format transition but
+does make the version and iv available for external code to support this.
+
 ## Contributing
 
 1. Fork it
