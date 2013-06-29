@@ -4,6 +4,13 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'minitest/autorun'
 require 'mini_shoulda'
 
+require 'simplecov'
+SimpleCov.start do
+  project_name "Basho - Ripple Encryption"
+
+  add_filter "/test/"
+end
+
 require 'ripple-encryption'
 
 ENV['RACK_ENV']   = 'test'
