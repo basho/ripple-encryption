@@ -11,7 +11,7 @@ module Ripple
     #     end
     #
     # @see Encryption
-    class Serializer
+    class JsonSerializer
       # @return [String] The Content-Type of the internal format,
       #      generally "application/json"
       attr_accessor :content_type
