@@ -26,9 +26,7 @@ module Ripple
       # encrypted.
       def update_robject
         super
-        if @@is_activated
-          robject.content_type = @@encrypted_content_type
-        end
+        robject.content_type = @@encrypted_content_type if Ripple::Encryption.activated?
       end
 
       def self.activate(path)
@@ -38,7 +36,9 @@ module Ripple
             config = YAML.load_file(path)[ENV['RACK_ENV']]
             encryptor = Ripple::Encryption::JsonSerializer.new(OpenSSL::Cipher.new(config['cipher']), path)
           rescue Exception => e
-            handle_invalid_encryption_config(e.message, e.backtrace)
+            handle_invalid_encryption_config(e)
+          ensure
+            @@is_activated = false
           end
           encryptor.key = config['key'] if config['key']
           encryptor.iv = config['iv'] if config['iv']
@@ -48,28 +48,21 @@ module Ripple
         encryptor
       end
 
-      def self.activated
+      def self.activated?
         @@is_activated
       end
 
   end
 end
 
-def handle_invalid_encryption_config(msg, trace)
-  puts <<eos
+def handle_invalid_encryption_config(exception)
+  raise Ripple::Encryption::ConfigError, <<eos
 
     The file "config/encryption.yml" is missing or incorrect. You will
     need to create this file and populate it with a valid cipher,
     initialization vector and secret key.
 
     An example is provided in "config/encryption.yml.example".
+
 eos
-
-  puts "Error Message: " + msg
-  puts "Error Trace:"
-  trace.each do |line|
-    puts line
-  end
-
-  exit 1
 end

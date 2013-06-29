@@ -1,6 +1,8 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
+require 'rake'
+
 require 'simplecov'
 SimpleCov.start do
   project_name "Basho - Ripple Encryption"

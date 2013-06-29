@@ -17,8 +17,11 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'riak-client'
   gem.add_dependency 'ripple'
+  gem.add_dependency 'rake'
 
   # Test Dependencies
-  gem.add_development_dependency 'rake'
+  gem.add_development_dependency 'simplecov'
   gem.add_development_dependency 'mini_shoulda'
+  gem.add_development_dependency 'ruby-prof'
+  gem.add_development_dependency 'debugger'
 end
