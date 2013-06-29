@@ -29,7 +29,8 @@ which makes the actual calls to OpenSSL.
 
 JsonDocument stores the encrypted data wrapped in JSON encapsulation so
 that you can still introspect the Riak object and see which version of
-this gem was used to encrypt it.
+this gem was used to encrypt it.  As of version 0.0.4, this is now the only
+supported serialization format for JSON data.
 
 There is also a Rake file to convert between encrypted and decrypted
 JSON objects.

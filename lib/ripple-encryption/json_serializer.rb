@@ -55,7 +55,7 @@ module Ripple
       # @param [String] blob the original content from Riak
       # @return [Object] the decrypted and deserialized object
       def load(object)
-        # try the v2 (0.0.2) compatible way of deserialize first
+        # this serializer now only supports the v2 (0.0.2 - 0.0.4) format
         return EncryptedJsonDocument.new(@config, object).decrypt
       end
     end
