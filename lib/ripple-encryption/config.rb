@@ -2,9 +2,6 @@ require 'openssl'
 
 module Ripple
   module Encryption
-    # Generic error class for Config
-    class ConfigError < StandardError; end
-
     # Handles the configuration information for the Encryptor.
     #
     # Example usage:

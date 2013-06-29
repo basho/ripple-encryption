@@ -1,8 +1,5 @@
 module Ripple
   module Encryption
-    # Generic error class for Encryptor
-    class EncryptorConfigError < StandardError; end
-
     # Implements a simple object that can either encrypt or decrypt arbitrary data.
     #
     # Example usage:

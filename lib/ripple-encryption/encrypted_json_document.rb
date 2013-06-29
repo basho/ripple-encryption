@@ -1,8 +1,5 @@
 module Ripple
   module Encryption
-    # Generic error class for Encryptor
-    class EncryptedJsonDocumentError < StandardError; end
-
     # Interprets a encapsulation in JSON for encrypted Ripple documents.
     #
     # Example usage:
