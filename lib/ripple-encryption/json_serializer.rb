@@ -1,13 +1,19 @@
 module Ripple
   module Encryption
     # Implements the {Riak::Serializer} API for the purpose of
-    # encrypting/decrypting Ripple documents.
+    # encrypting/decrypting Ripple documents as JSON.
     #
     # Example usage:
-    #     ::Riak::Serializers['application/x-json-encrypted'] = EncryptedSerializer.new(OpenSSL::Cipher.new("AES-256"))
+    #     path = File.join(ROOT_DIR,'config','encryption.yml')
+    #     
+    #     ::Riak::Serializers['application/x-json-encrypted'] = Ripple::Encryption::JsonSerializer.new
+    #     (
+    #       OpenSSL::Cipher.new(config['cipher']), path
+    #     )
+    #
     #     class MyDocument
     #       include Ripple::Document
-    #       include Riak::Encryption
+    #       include Ripple::Encryption
     #     end
     #
     # @see Encryption
@@ -35,8 +41,8 @@ module Ripple
       #     encryption/decryption algorithm
       # @param [String] content_type the Content-Type of the
       #     unencrypted contents
-      def initialize(cipher, content_type='application/json', path)
-        @cipher, @content_type = cipher, content_type
+      def initialize(cipher, path)
+        @cipher, @content_type = cipher, 'application/x-json-encrypted'
         @config = Ripple::Encryption::Config.new(path)
       end
 

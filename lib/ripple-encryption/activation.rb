@@ -36,7 +36,7 @@ module Ripple
         unless Riak::Serializers['application/x-json-encrypted']
           begin
             config = YAML.load_file(path)[ENV['RACK_ENV']]
-            encryptor = Ripple::Encryption::JsonSerializer.new(OpenSSL::Cipher.new(config['cipher']), 'application/x-json-encrypted', path)
+            encryptor = Ripple::Encryption::JsonSerializer.new(OpenSSL::Cipher.new(config['cipher']), path)
           rescue Exception => e
             handle_invalid_encryption_config(e.message, e.backtrace)
           end
