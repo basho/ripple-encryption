@@ -1,7 +1,6 @@
 # Ripple::Encryption
 
-The ripple-encryption gem provides encryption and decryption for Ripple documents.
-[riak-ruby](https://github.com/basho/riak-ruby-client) [ripple](https://github.com/basho/ripple)
+The ripple-encryption gem provides encryption and decryption for Ripple documents.  This gem's primary dependencies are [riak-ruby](https://github.com/basho/riak-ruby-client) and [ripple](https://github.com/basho/ripple).
 
 
 ## Installation
