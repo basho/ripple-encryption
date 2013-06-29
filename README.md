@@ -67,7 +67,7 @@ version to another.  Currently; only the ```JsonSerializer``` supports this
 type of incremental transition with the support matrix below.
 
 | version  | First | Last    |
-|----------+-------+---------|
+| -------- | ----- | ------- |
 | v1       | 0.0.1 | 0.0.3   |
 | v2       | 0.0.2 | current |
 
