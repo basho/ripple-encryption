@@ -36,4 +36,18 @@ class TestJsonDocument < MiniTest::Spec
       assert_equal @document, Ripple::Encryption::EncryptedBinaryDocument.new(@config, encrypted_document).decrypt, 'Did not get the BINARY format expected.'
     end
   end
+
+  context "Ripple::Encryption::BinarySerializer" do
+    setup do
+      # this is not the default serializer; so we must test independently
+      @document = "a binary file of sorts"
+      @serializer = Riak::Serializers[Ripple::Encryption::BinarySerializer::REGISTER_KEY]
+    end
+
+    should 'dump & load' do
+      encrypted_document = @serializer.dump @document
+      result = @serializer.load encrypted_document
+      assert_equal @document, result
+    end
+  end
 end
