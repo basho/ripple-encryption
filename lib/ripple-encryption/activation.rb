@@ -13,6 +13,8 @@ module Ripple
     @@is_activated = false
 
     included do
+      # This sets the default encrypted serializer to JSON
+      # (ActiveSupport friendly at the cost of more bytes)
       @@encrypted_content_type = self.encrypted_content_type = Ripple::Encryption::JsonSerializer::REGISTER_KEY
     end
 
@@ -23,7 +25,7 @@ module Ripple
     end
 
     # Overrides the internal method to set the content-type to be
-    # encrypted.
+    # encrypted using the default encrypted serializer.
     def update_robject
       super
       robject.content_type = @@encrypted_content_type if Ripple::Encryption.activated?
