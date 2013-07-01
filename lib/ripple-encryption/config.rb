@@ -2,9 +2,6 @@ require 'openssl'
 
 module Ripple
   module Encryption
-    # Generic error class for Config
-    class ConfigError < StandardError; end
-
     # Handles the configuration information for the Encryptor.
     #
     # Example usage:
@@ -24,8 +21,8 @@ module Ripple
       end
 
       # Return either the default initialization vector, or create a new one.
-      def activate
-        @config['iv'] ||= OpenSSL::Random.random_bytes(16)
+      def generate_new_iv
+        @config['iv'] = OpenSSL::Random.random_bytes(16)
       end
 
       def validate_path(path)

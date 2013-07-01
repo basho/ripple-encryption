@@ -8,68 +8,71 @@ module Ripple
     # serialized form before it is stored in Riak.  You must register
     # a serializer that will perform the encryption.
     # @see Serializer
-      extend ActiveSupport::Concern
+    extend ActiveSupport::Concern
 
-      @@is_activated = false
+    @@is_activated = false
 
-      included do
-        @@encrypted_content_type = self.encrypted_content_type = 'application/x-json-encrypted'
+    included do
+      # This sets the default encrypted serializer to JSON
+      # (ActiveSupport friendly at the cost of more bytes)
+      @@encrypted_content_type = self.encrypted_content_type = Ripple::Encryption::JsonSerializer::REGISTER_KEY
+    end
+
+    module ClassMethods
+      # @return [String] the content type to be used to indicate the
+      #     proper encryption scheme. Defaults to 'application/x-json-encrypted'
+      attr_accessor :encrypted_content_type
+    end
+
+    # Overrides the internal method to set the content-type to be
+    # encrypted using the default encrypted serializer.
+    def update_robject
+      super
+      robject.content_type = @@encrypted_content_type if Ripple::Encryption.activated?
+    end
+
+    def self.activate(path)
+      primary_encryptor = nil
+      [Ripple::Encryption::JsonSerializer, Ripple::Encryption::BinarySerializer].each do |serializer|
+        encryptor = self.load_serializer(serializer, path)
+        primary_encryptor if serializer == Ripple::Encryption::JsonSerializer
       end
+      primary_encryptor
+    end
 
-      module ClassMethods
-        # @return [String] the content type to be used to indicate the
-        #     proper encryption scheme. Defaults to 'application/x-json-encrypted'
-        attr_accessor :encrypted_content_type
-      end
+    def self.activated?
+      @@is_activated
+    end
 
-      # Overrides the internal method to set the content-type to be
-      # encrypted.
-      def update_robject
-        super
-        if @@is_activated
-          robject.content_type = @@encrypted_content_type
-        end
-      end
+    private
 
-      def self.activate(path)
-        encryptor = nil
-        unless Riak::Serializers['application/x-json-encrypted']
-          begin
-            config = YAML.load_file(path)[ENV['RACK_ENV']]
-            encryptor = Ripple::Encryption::Serializer.new(OpenSSL::Cipher.new(config['cipher']), 'application/x-json-encrypted', path)
-          rescue Exception => e
-            handle_invalid_encryption_config(e.message, e.backtrace)
-          end
-          encryptor.key = config['key'] if config['key']
-          encryptor.iv = config['iv'] if config['iv']
-          Riak::Serializers['application/x-json-encrypted'] = encryptor
-          @@is_activated = true
-        end
-        encryptor
+    def self.load_serializer(serializer_class, path)
+      begin
+        config = YAML.load_file(path)[ENV['RACK_ENV']]
+        encryptor = serializer_class.new(OpenSSL::Cipher.new(config['cipher']), path)
+      rescue Exception => e
+        handle_invalid_encryption_config(e)
+      ensure
+        @@is_activated = false
       end
-
-      def self.activated
-        @@is_activated
-      end
+      encryptor.key = config['key'] if config['key']
+      encryptor.iv = config['iv'] if config['iv']
+      Riak::Serializers[serializer_class::REGISTER_KEY] = encryptor
+      @@is_activated = true
+      encryptor
+    end
 
   end
 end
 
-def handle_invalid_encryption_config(msg, trace)
-  puts <<eos
+def handle_invalid_encryption_config(exception)
+  raise Ripple::Encryption::ConfigError, <<eos
 
     The file "config/encryption.yml" is missing or incorrect. You will
     need to create this file and populate it with a valid cipher,
     initialization vector and secret key.
 
     An example is provided in "config/encryption.yml.example".
+
 eos
-
-  puts "Error Message: " + msg
-  puts "Error Trace:"
-  trace.each do |line|
-    puts line
-  end
-
-  exit 1
 end

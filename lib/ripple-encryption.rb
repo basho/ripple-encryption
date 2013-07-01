@@ -8,3 +8,4 @@ end
 
 # Include all of the support files.
 FileList[File.expand_path(File.join('..','ripple-encryption','*.rb'),__FILE__)].each{|f| require f}
+FileList[File.expand_path(File.join('..','ripple-encryption/types','*.rb'),__FILE__)].each{|f| require f}

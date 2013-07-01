@@ -1,12 +1,9 @@
 module Ripple
   module Encryption
-    # Generic error class for Encryptor
-    class EncryptedJsonDocumentError < StandardError; end
-
     # Interprets a encapsulation in JSON for encrypted Ripple documents.
     #
     # Example usage:
-    #     Ripple::Encryption::JsonDocument.new(@document).encrypt
+    #     Ripple::Encryption::EncryptedJsonDocument.new(@document).encrypt
     class EncryptedJsonDocument
       # Creates an object that is prepared to decrypt its contents.
       # @param [String] data json string that was stored in Riak
