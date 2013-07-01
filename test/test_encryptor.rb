@@ -1,6 +1,21 @@
 require 'helper'
 
 class TestEncryptor < MiniTest::Spec
+  context "Ripple::Encryption Activate" do
+    should "raise error if acivate using bad config path" do
+      begin
+        assert_raises Ripple::Encryption::ConfigError do                                                                                                                                          
+          Riak::Serializers['application/x-json-encrypted'] = nil
+          Ripple::Encryption.activate 'bad_path'
+        end
+      ensure
+        assert_equal false, Ripple::Encryption.activated?
+        Ripple::Encryption.activate ENV['ENCRYPTION']
+        assert_equal true, Ripple::Encryption.activated?
+      end
+    end
+  end
+
   context "Ripple::Encryption::Encryptor" do
     setup do
       config     = Ripple::Encryption::Config.new ENV['ENCRYPTION']
