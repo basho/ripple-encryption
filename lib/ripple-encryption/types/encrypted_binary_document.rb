@@ -19,7 +19,6 @@ module Ripple
 
       # Returns the original data from the stored encrypted format
       def decrypt
-        #(@decryptor.decrypt @data[:data]).force_encoding('utf-8').encode
         @decryptor.decrypt @data[:data]
       end
     end
