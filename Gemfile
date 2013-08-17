@@ -2,8 +2,8 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'riak-client', '~> 1.1.1'
-gem 'ripple', :git => 'git://github.com/basho/ripple.git', :ref => '913806aa2942db5a3b61d1432d2c9be200338f50'
+gem 'riak-client', '~> 1.4.0'
+gem 'ripple', :git => 'git://github.com/basho/ripple.git', :ref => '9d4ee5f5cc2284019060e278a4617fbe9c2ea919'
 
 group :development, :test do
   gem 'ruby-prof'

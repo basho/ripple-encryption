@@ -1,12 +1,12 @@
 GIT
   remote: git://github.com/basho/ripple.git
-  revision: 913806aa2942db5a3b61d1432d2c9be200338f50
-  ref: 913806aa2942db5a3b61d1432d2c9be200338f50
+  revision: 9d4ee5f5cc2284019060e278a4617fbe9c2ea919
+  ref: 9d4ee5f5cc2284019060e278a4617fbe9c2ea919
   specs:
     ripple (1.0.0.beta2)
       activemodel (>= 3.0.0, < 3.3.0)
       activesupport (>= 3.0.0, < 3.3.0)
-      riak-client (~> 1.1.0)
+      riak-client (~> 1.1)
       tzinfo
 
 PATH
@@ -20,11 +20,11 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (3.2.12)
-      activesupport (= 3.2.12)
+    activemodel (3.2.14)
+      activesupport (= 3.2.14)
       builder (~> 3.0.0)
-    activesupport (3.2.12)
-      i18n (~> 0.6)
+    activesupport (3.2.14)
+      i18n (~> 0.6, >= 0.6.4)
       multi_json (~> 1.0)
     beefcake (0.3.7)
     builder (3.0.4)
@@ -35,14 +35,14 @@ GEM
       debugger-ruby_core_source (~> 1.2.3)
     debugger-linecache (1.2.0)
     debugger-ruby_core_source (1.2.3)
-    i18n (0.6.4)
+    i18n (0.6.5)
     innertube (1.0.2)
     mini_shoulda (0.5.0)
       minitest (> 2.1.0)
     minitest (3.3.0)
-    multi_json (1.6.1)
+    multi_json (1.7.9)
     rake (10.0.3)
-    riak-client (1.1.1)
+    riak-client (1.4.0)
       beefcake (~> 0.3.7)
       builder (>= 2.1.2)
       i18n (>= 0.4.0)
@@ -53,7 +53,7 @@ GEM
       multi_json (~> 1.0)
       simplecov-html (~> 0.7.1)
     simplecov-html (0.7.1)
-    tzinfo (0.3.35)
+    tzinfo (1.0.1)
 
 PLATFORMS
   ruby
@@ -61,7 +61,7 @@ PLATFORMS
 DEPENDENCIES
   debugger
   mini_shoulda
-  riak-client (~> 1.1.1)
+  riak-client (~> 1.4.0)
   ripple!
   ripple-encryption!
   ruby-prof
