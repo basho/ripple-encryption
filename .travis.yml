@@ -10,6 +10,4 @@ before_script:
   - "sudo apt-get update"
   - "yes n | sudo apt-get install riak"
   - "sudo service riak start"
-  - ! 'echo "root: .riaktest" > spec/support/test_server.yml'
-  - ! 'echo "source: /usr/sbin" >> spec/support/test_server.yml'
   - "ulimit -n 4096"
