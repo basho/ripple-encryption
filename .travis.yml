@@ -12,5 +12,5 @@ before_script:
   - "yes n | sudo apt-get install riak"
   - "sudo service riak restart"
   - "sudo riak-admin member_status"
-  - "sudo riak-admin ring-ready"
+  - "sudo riak-admin ring-status"
   - "sudo riak-admin status"
