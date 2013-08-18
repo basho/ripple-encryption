@@ -31,6 +31,7 @@ rescue RuntimeError
 end
 # define test Ripple Documents
 Ripple::Encryption.activate ENV['ENCRYPTION']
+Riak.disable_list_keys_warnings = true
 class TestDocument
   include Ripple::Document
   include Ripple::Encryption
@@ -41,7 +42,7 @@ class TestDocument
   end
 end
 
-TestDocument.bucket.get_index('$bucket', '_').each {|k| TestDocument.bucket.delete(k)}
+TestDocument.bucket.keys.each {|k| TestDocument.bucket.delete(k)}
 
 # load Riak fixtures
 FileList[File.expand_path(File.join('..','fixtures','*'),__FILE__)].each do |f|
