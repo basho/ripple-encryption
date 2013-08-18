@@ -5,12 +5,12 @@ services:
   - riak
 bundler_args: --without=guard
 before_script:
+  - "ulimit -n 4096"
   - "curl http://apt.basho.com/gpg/basho.apt.key | sudo apt-key add -"
   - 'sudo bash -c "echo deb http://apt.basho.com $(lsb_release -sc) main > /etc/apt/sources.list.d/basho.list"'
   - "sudo apt-get update"
   - "yes n | sudo apt-get install riak"
-  - "sudo service riak stop"
-  - "sudo service riak start"
-  - "sudo service riak ping"
-  - "netstat -antp | grep 8098"
-  - "ulimit -n 4096"
+  - "sudo service riak restart"
+  - "sudo riak-admin member_status"
+  - "sudo riak-admin ring-ready"
+  - "sudo riak-admin status"
