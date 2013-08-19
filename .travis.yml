@@ -12,6 +12,3 @@ before_script:
   - "yes n | sudo apt-get install riak"
   - "sudo sed -i.bak \"s/{ring_creation_size, 64}/{ring_creation_size, 8}/\" /etc/riak/app.config"
   - "sudo service riak restart"
-  - "sudo riak-admin member_status"
-  - "sudo riak-admin ring-status"
-  - "sudo riak-admin status"
