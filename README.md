@@ -1,4 +1,6 @@
-# Ripple::Encryption [![Build Status](https://travis-ci.org/basho/ripple-encryption.png)](https://travis-ci.org/basho/ripple-encryption) [![Gem Version](https://badge.fury.io/rb/ripple-encryption.png)](http://badge.fury.io/rb/ripple-encryption)
+# Ripple::Encryption
+[![Build Status](https://travis-ci.org/basho/ripple-encryption.png)](https://travis-ci.org/basho/ripple-encryption)
+[![Gem Version](https://badge.fury.io/rb/ripple-encryption.png)](http://badge.fury.io/rb/ripple-encryption)
 
 The ripple-encryption gem provides encryption and decryption for Ripple documents.  This gem's primary dependencies are [riak-ruby](https://github.com/basho/riak-ruby-client) and [ripple](https://github.com/basho/ripple).
 
